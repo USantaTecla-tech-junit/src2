@@ -8,7 +8,7 @@ import org.junit.Test;
 
 public class MathTest {
 
-	private static final double PRECISION = 0.00000001;
+	private static final double PRECISION = 0.000000001;
 	
 	@Test
 	public void testAbs() {
