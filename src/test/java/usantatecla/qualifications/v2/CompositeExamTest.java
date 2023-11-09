@@ -9,10 +9,37 @@ import usantatecla.qualifications.v2.builders.SingleExamBuilder;
 
 public class CompositeExamTest extends ExamTest {
 
+	@Override
+	protected Exam createExam_Name(String name) {
+		return new CompositeExamBuilder().exam(createSingleExam()).name(name).build();
+	}
+
+	private SingleExam createSingleExam() {
+		return new SingleExamBuilder()
+			.build();
+	}
+
+	@Override
+	protected Exam createExam_Minimum(double minimum) {
+		return new CompositeExamBuilder()
+			.exam(createSingleExam()).minimum(minimum).build();
+	}
+
+	@Override
+	protected Exam createExam_Percent(double percent) {
+		return new CompositeExamBuilder()
+			.exam(createSingleExam()).percent(percent).build();
+	}
+
+	@Override
+	protected Exam createExam() {
+		return new CompositeExamBuilder()
+			.exam(createSingleExam()).build();
+	}	
+
 	@Test(expected = AssertionError.class)
 	public void givenCompositeExam_whenCreatingWithoutExam_thenAssertionError() {
-		new CompositeExamBuilder()
-			.build();
+		new CompositeExamBuilder().build();
 	}
 
 	@Test(expected = AssertionError.class)
@@ -54,24 +81,21 @@ public class CompositeExamTest extends ExamTest {
 		assertThat(
 			new CompositeExamBuilder()
 				.exam(new SingleExamBuilder().value(7.0).percent(0.3).build())
-				.exam(new SingleExamBuilder().value(5.0).percent(0.7).build())
-				.build()
-					.getResult()
-		, closeTo(5.6, CompositeExamTest.EPSILON));
+				.exam(new SingleExamBuilder().value(5.0).percent(0.7).build()).build()
+			.getResult(), closeTo(5.6, CompositeExamTest.EPSILON));
 	}
 
 	@Test
 	public void givenCompositionExamWithTwoTypeExams_whenGetResult_thenOk() {
-		Exam exam = new CompositeExamBuilder()
-		.exam(new SingleExamBuilder().value(10.0).percent(0.5).build())
-		.exam(new CompositeExamBuilder() 
-			.exam(new SingleExamBuilder().value(7.0).percent(0.3).build())
-			.exam(new SingleExamBuilder().value(5.0).percent(0.7).build())
-			.percent(0.5)
-			.name("b").build()).build();
 		assertThat(
-			exam.getResult()
-		, closeTo(7.8, CompositeExamTest.EPSILON));
+			new CompositeExamBuilder()
+				.exam(new SingleExamBuilder().value(10.0).percent(0.5).build())
+				.exam(new CompositeExamBuilder() 
+					.exam(new SingleExamBuilder().value(7.0).percent(0.3).build())
+					.exam(new SingleExamBuilder().value(5.0).percent(0.7).build())
+				.percent(0.5)
+				.name("b").build()).build()
+			.getResult(), closeTo(7.8, CompositeExamTest.EPSILON));
 	}
 
 	@Test
@@ -81,9 +105,7 @@ public class CompositeExamTest extends ExamTest {
 		.exam(new SingleExamBuilder().percent(0.9).name("b").build()).build();
 		exam.setValue(2.0, "a");
 		exam.setValue(8.0, "b");
-		assertThat(
-			exam.getResult()
-		, closeTo(7.4, CompositeExamTest.EPSILON));
+		assertThat(exam.getResult(), closeTo(7.4, CompositeExamTest.EPSILON));
 	}
 
 	@Test
@@ -98,29 +120,7 @@ public class CompositeExamTest extends ExamTest {
 		exam.setValue(10.0, "a");
 		exam.setValue(7.0, "b", "b1");
 		exam.setValue(5.0, "b", "b2");
-		assertThat(
-			exam.getResult()
-		, closeTo(7.8, CompositeExamTest.EPSILON));
+		assertThat(exam.getResult(), closeTo(7.8, CompositeExamTest.EPSILON));
 	}
-
-	@Override
-	protected Exam createExam_Name(String name) {
-		return new CompositeExamBuilder().exam(new SingleExamBuilder().build()).name(name).build();
-	}
-
-	@Override
-	protected Exam createExam_Minimum(double minimum) {
-		return new CompositeExamBuilder().exam(new SingleExamBuilder().build()).minimum(minimum).build();
-	}
-
-	@Override
-	protected Exam createExam_Percent(double percent) {
-		return new CompositeExamBuilder().exam(new SingleExamBuilder().build()).percent(percent).build();
-	}
-
-	@Override
-	protected Exam createExam() {
-		return new CompositeExamBuilder().exam(new SingleExamBuilder().build()).build();
-	}	
 
 }

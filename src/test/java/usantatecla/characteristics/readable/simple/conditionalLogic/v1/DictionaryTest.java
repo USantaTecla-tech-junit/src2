@@ -19,7 +19,7 @@ public class DictionaryTest {
 
 	@Test
 	public void returnsAnIteratorForContents() throws Exception {
-		dictionary.add(new Pair("A", new Long(3L)));
+		dictionary.add(new Pair("A", Long.valueOf(3L)));
 		dictionary.add(new Pair("B", "21"));
 		for (Iterator<Pair> iterator = dictionary.iterator(); iterator.hasNext();) {
 			Pair pair = iterator.next();

@@ -24,7 +24,7 @@ public abstract class ExamTest {
 
 	@Test()
 	public void givenExam_whenGetName_thenOk() {
-		String name = "name";
+		final String name = "name";
 		assertThat(this.createExam_Name(name).getName(), is(name));
 	}
 

@@ -3,15 +3,45 @@ package usantatecla.qualifications.v1;
 import static org.junit.Assert.*;
 
 import java.util.Arrays;
+import java.util.List;
 
 import static org.hamcrest.number.IsCloseTo.closeTo;
 import org.junit.Test;
 
 public class CompositeExamTest extends ExamTest {
 
+	@Override
+	protected Exam createExam_Name(String name) {
+		return new CompositeExam(name, new Rate(), 
+			oneSingleExamList());
+	}
+
+	private List<Exam> oneSingleExamList() {
+		return Arrays.asList(new Exam[]{new SingleExam("name")});
+	}
+
+	@Override
+	protected Exam createExam_Minimum(double minimum) {
+		return new CompositeExam("name", new Rate(Rate.MAXIMUM_PERCENT, minimum), 
+			oneSingleExamList());
+	}
+
+	@Override
+	protected Exam createExam_Percent(double percent) {
+		return new CompositeExam("name", new Rate(percent), 
+			oneSingleExamList());
+	}
+
+	@Override
+	protected Exam createExam() {
+		return new CompositeExam("name", new Rate(), 
+			oneSingleExamList());
+	}	
+
 	@Test(expected = AssertionError.class)
 	public void givenCompositeExam_whenCreatingWithoutExam_thenAssertionError() {
-		new CompositeExam("name", new Rate(), Arrays.asList(new Exam[]{}));
+		new CompositeExam("name", new Rate(), 
+			oneSingleExamList());
 	}
 
 	@Test(expected = AssertionError.class)
@@ -95,29 +125,5 @@ public class CompositeExamTest extends ExamTest {
 		exam.setValue(5.0, "b", "b2");
 		assertThat(exam.getResult(), closeTo(7.8, CompositeExamTest.EPSILON));
 	}
-
-	@Override
-	protected Exam createExam_Name(String name) {
-		return new CompositeExam(name, new Rate(), Arrays.asList(
-			new Exam[]{new SingleExam("name")}));
-	}
-
-	@Override
-	protected Exam createExam_Minimum(double minimum) {
-		return new CompositeExam("name", new Rate(Rate.MAXIMUM_PERCENT, minimum), Arrays.asList(
-			new Exam[]{new SingleExam("name")}));
-	}
-
-	@Override
-	protected Exam createExam_Percent(double percent) {
-		return new CompositeExam("name", new Rate(percent), Arrays.asList(
-			new Exam[]{new SingleExam("name")}));
-	}
-
-	@Override
-	protected Exam createExam() {
-		return new CompositeExam("name", new Rate(), Arrays.asList(
-			new Exam[]{new SingleExam("name")}));
-	}	
 
 }

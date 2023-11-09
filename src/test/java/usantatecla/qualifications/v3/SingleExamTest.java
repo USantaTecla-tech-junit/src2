@@ -14,6 +14,26 @@ import org.junit.Test;
 
 public class SingleExamTest extends ExamTest {
 
+	@Override
+	protected Exam createExam() {
+		return createSingleExam();
+	}
+	
+	@Override
+	protected Exam createExam_Name(String name) {
+		return createSingleExam_Name(name);
+	}
+
+	@Override
+	protected Exam createExam_Minimum(double minimum) {
+		return createSingleExam_Minimum(minimum);
+	}
+
+	@Override
+	protected Exam createExam_Percent(double percent) {
+		return createSingleExam_Percent(percent);
+	}
+
 	@Test(expected = AssertionError.class)
 	public void givenRate_whenCreatingWithNegativeValue_thenAssertionError() {
 		createSingleExam_Value(-ExamTest.EPSILON);
@@ -107,26 +127,6 @@ public class SingleExamTest extends ExamTest {
 		assertThat(
 			exam.getResult()
 		, is(value));
-	}
-
-	@Override
-	protected Exam createExam() {
-		return createSingleExam();
-	}
-	
-	@Override
-	protected Exam createExam_Name(String name) {
-		return createSingleExam_Name(name);
-	}
-
-	@Override
-	protected Exam createExam_Minimum(double minimum) {
-		return createSingleExam_Minimum(minimum);
-	}
-
-	@Override
-	protected Exam createExam_Percent(double percent) {
-		return createSingleExam_Percent(percent);
 	}
 
 }

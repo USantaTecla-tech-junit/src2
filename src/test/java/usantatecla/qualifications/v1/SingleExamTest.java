@@ -7,6 +7,27 @@ import org.junit.Test;
 
 public class SingleExamTest extends ExamTest {
 
+	
+	@Override
+	protected Exam createExam() {
+		return new SingleExam("exam", new Rate());
+	}
+
+	@Override
+	protected Exam createExam_Name(String name) {
+		return new SingleExam(name, new Rate());
+	}
+
+	@Override
+	protected Exam createExam_Minimum(double minimum) {
+		return new SingleExam("name", new Rate(Rate.MAXIMUM_PERCENT, minimum));
+	}
+
+	@Override
+	protected Exam createExam_Percent(double percent) {
+		return new SingleExam("name", new Rate(percent));
+	}
+	
 	@Test(expected = AssertionError.class)
 	public void givenRate_whenCreatingWithNegativeValue_thenAssertionError() {
 		SingleExam singleExam = new SingleExam("exam", new Rate());
@@ -22,7 +43,8 @@ public class SingleExamTest extends ExamTest {
 	@Test
 	public void givenRateWithValueGreaterOrEqualsThanMinimun_whenIsQualifiable_thenTrue() {
 		final double minimum = 0;
-		SingleExam singleExam = new SingleExam("exam", new Rate(Rate.MAXIMUM_PERCENT, minimum));
+		SingleExam singleExam = 
+			new SingleExam("exam", new Rate(Rate.MAXIMUM_PERCENT, minimum));
 		singleExam.setValue(minimum);
 		assertThat(singleExam.isQualifiable(), is(true));
 	}
@@ -96,26 +118,6 @@ public class SingleExamTest extends ExamTest {
 		final double value = 0.0;
 		exam.setValue(value);
 		assertThat(exam.getResult(), is(value));
-	}
-
-	@Override
-	protected Exam createExam() {
-		return new SingleExam("exam", new Rate());
-	}
-
-	@Override
-	protected Exam createExam_Name(String name) {
-		return new SingleExam(name, new Rate());
-	}
-
-	@Override
-	protected Exam createExam_Minimum(double minimum) {
-		return new SingleExam("name", new Rate(Rate.MAXIMUM_PERCENT, minimum));
-	}
-
-	@Override
-	protected Exam createExam_Percent(double percent) {
-		return new SingleExam("name", new Rate(percent));
 	}
 
 }

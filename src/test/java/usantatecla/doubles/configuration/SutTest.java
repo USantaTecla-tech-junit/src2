@@ -136,7 +136,7 @@ public class SutTest {
 
   @Test
   public void testWithDoAnswer() {
-    doAnswer(new Answer() {
+    doAnswer(new Answer<Object>() {
       public Object answer(InvocationOnMock invocation) {
         Object[] args = invocation.getArguments();
         int value = (Integer) args[0];
@@ -148,7 +148,7 @@ public class SutTest {
 
   @Test
   public void testWithThenAnswer() {
-    when(this.doc.returnMethodWithParemeters(5)).thenAnswer(new Answer() {
+    when(this.doc.returnMethodWithParemeters(5)).thenAnswer(new Answer<Object>() {
       public Object answer(InvocationOnMock invocation) {
         Object[] args = invocation.getArguments();
         int value = (Integer) args[0];

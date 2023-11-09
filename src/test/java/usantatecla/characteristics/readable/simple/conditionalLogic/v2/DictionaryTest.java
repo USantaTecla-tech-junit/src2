@@ -20,7 +20,7 @@ public class DictionaryTest {
 	@Test
 	public void returnsAnIteratorForContents() throws Exception {
 		Pair[] pairs = new Pair[] { 
-				new Pair("A", new Long(3)), 
+				new Pair("A", Long.valueOf(3)), 
 				new Pair("B", "21") 
 			};
 		for (Pair pair : pairs) {
