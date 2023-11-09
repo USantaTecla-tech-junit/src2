@@ -18,6 +18,26 @@ import org.junit.Test;
 
 public class CompositeExamTest extends ExamTest {
 
+	@Override
+	protected Exam createExam_Name(String name) {
+		return createCompositeExam_Name(name, createSingleExam());
+	}
+
+	@Override
+	protected Exam createExam_Minimum(double minimum) {
+		return createCompositeExam_Minimum(minimum);
+	}
+
+	@Override
+	protected Exam createExam_Percent(double percent) {
+		return createCompositeExam_Percent(percent);
+	}
+
+	@Override
+	protected Exam createExam() {
+		return createCompositeExam_SingleExam();
+	}	
+
 	@Test(expected = AssertionError.class)
 	public void givenCompositeExam_whenCreatingWithoutExam_thenAssertionError() {
 		createCompositeExam_Empty();
@@ -105,25 +125,5 @@ public class CompositeExamTest extends ExamTest {
 			exam.getResult()
 		, closeTo(7.8, CompositeExamTest.EPSILON));
 	}
-
-	@Override
-	protected Exam createExam_Name(String name) {
-		return createCompositeExam_Name(name, createSingleExam());
-	}
-
-	@Override
-	protected Exam createExam_Minimum(double minimum) {
-		return createCompositeExam_Minimum(minimum);
-	}
-
-	@Override
-	protected Exam createExam_Percent(double percent) {
-		return createCompositeExam_Percent(percent);
-	}
-
-	@Override
-	protected Exam createExam() {
-		return createCompositeExam_SingleExam();
-	}	
 
 }
